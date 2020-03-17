@@ -1,0 +1,18 @@
+My practice for react-native development
+
+Start project:
+$ npm install -g expo-cli
+$ expo start
+
+
+Setup:
+npm install --save redux react-redux
+npm install --save react-navigation
+npm install --save react-navigation-header-buttons
+npm install --save react-native-gesture-handler react-native-reanimated
+<!-- npm install --save react-navigation-stack -->
+<!-- npm install --save react-navigation-tabs -->
+<!-- npm install --save react-navigation-drawer -->
+<!-- npm install --save @expo/vector-icons
+npm install --save react-navigation-material-bottom-tabs
+npm install --save react-native-pape -->
