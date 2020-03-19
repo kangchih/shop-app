@@ -1,44 +1,27 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-// import { CATEGORIES } from '../data/dummy-data';
-
+import { Text, FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
+import ProductItem from '../../components/shop/ProductItem'
 
 const ProductsOverviewScreen = props => {
-
+    const products = useSelector(state => state.products.availableProducts);
     return (
-        <FlatList />
+        <FlatList
+            data={products}
+            keyExtractor={item => item.id}
+            renderItem={itemData =>
+                <ProductItem image={itemData.item.imageUrl}
+                    title={itemData.item.title}
+                    price={itemData.item.price} onViewDetail={() => { }}
+                    onAddToCart={()=>{}} 
+                    />
+            }
+        />
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        borderRadius: 10,
-        shadowColor: 'black',
-        shadowOpacity: 0.26,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 10,
-        padding: 15,
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end'
-    },
-    gridItem: {
-        flex: 1,
-        margin: 15,
-        height: 150,
-        borderRadius: 10,
-        overflow: Platform.OS === 'android' && Platform.Version >= 21
-            ? 'hidden'
-            : 'visible',
-        // : 'visible',
-        elevation: 5,
-
-    },
-    title: {
-        fontFamily: 'open-sans-bold',
-        fontSize: 22,
-        textAlign: 'right'
-    }
-});
+ProductsOverviewScreen.navigationOptions = {
+    headerTitle: 'All Products'
+};
 
 export default ProductsOverviewScreen;
