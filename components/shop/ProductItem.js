@@ -1,27 +1,44 @@
 import React from 'react';
-import { Text, View, Image, StyleSheet, Button } from 'react-native';
+import { Text, View, Image, StyleSheet, Button, TouchableOpacity, TouchableNativeFeedback, Platform } from 'react-native';
 import Colors from '../../constants/Colors';
 
 const ProductItem = props => {
-    return <View style={styles.product}>
-        <View style={styles.imageContainer}>
-        <Image style={styles.image} source={{ uri: props.image }} />
+    let TouchableCmp = TouchableOpacity;
+
+    if (Platform.OS === 'android' && Platform.Version >= 21) {
+        TouchableCmp = TouchableNativeFeedback;
+    }
+
+    return (
+        //<TouchableCmp> here made the whole product picture clickable. 
+        // useForeground: Fix android click product effect hidden by image 
+        <View style={styles.product}>
+            <View style={styles.touchable}>
+                <TouchableCmp onPress={props.onViewDetail} useForeground>
+                    {/* it not adding this <view> android crashes */}
+                    <View>
+                        <View style={styles.imageContainer}>
+                            <Image style={styles.image} source={{ uri: props.image }} />
+                        </View>
+                        <View style={styles.details}>
+                            <Text style={styles.title}>{props.title}</Text>
+                            <Text style={styles.price}>${props.price.toFixed(2)}</Text>
+                        </View>
+                        <View style={styles.actions}>
+                            <Button
+                                color={Colors.primary}
+                                title="View Details" Ｆ
+                                onPress={props.onViewDetail} />
+                            <Button
+                                color={Colors.primary}
+                                title="To Cart"
+                                onPress={props.onAddToCart} />
+                        </View>
+                    </View>
+                </TouchableCmp>
+            </View>
         </View>
-        <View style={styles.details}>
-            <Text style={styles.title}>{props.title}</Text>
-            <Text style={styles.price}>${props.price.toFixed(2)}</Text>
-        </View>
-        <View style={styles.actions}>
-            <Button
-                color={Colors.primary}
-                title="View Details"
-                onPress={props.onViewDetails} />
-            <Button
-                color={Colors.primary}
-                title="To Cart"
-                onPress={props.onAddToCart} />
-        </View>
-    </View>
+    )
 };
 
 const styles = StyleSheet.create({
@@ -34,9 +51,13 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: 'white',
         height: 300,
-        margin: 20
+        margin: 20,
     },
-    imageContainer:{
+    touchable: {
+        borderRadius: 10,
+        overflow: 'hidden'
+    },
+    imageContainer: {
         width: '100%',
         height: '60%',
         borderTopLeftRadius: 10,
