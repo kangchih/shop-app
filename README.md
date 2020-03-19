@@ -15,6 +15,7 @@ npm install --save react-navigation-stack
 expo install react-native-safe-area-context
 expo install react-native-screens
 expo install expo-font
+npm install --save-dev redux-devtools-extension
 <!-- npm install --save react-navigation-stack -->
 <!-- npm install --save react-navigation-tabs -->
 <!-- npm install --save react-navigation-drawer -->

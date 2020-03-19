@@ -5,17 +5,18 @@ import { Provider } from 'react-redux';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import productsReducer from './store/reducers/products';
+import cartReducer from './store/reducers/cart';
 import ShopNavigator from './navigation/ShopNavigator';
+// import { composeWithDevTools } from 'redux-devtools-extension';
 
-// import * as Font from 'expo-font';
-// import { AppLoading } from 'expo';
 // import { enableScreens } from 'react-native-screens';
 
-
 const rootReducer = combineReducers({
-  products: productsReducer
+  products: productsReducer,
+  cart: cartReducer
 });
 
+// const store = createStore(rootReducer, composeWithDevTools());
 const store = createStore(rootReducer);
 
 const fetchFonts = () => {
@@ -45,12 +46,3 @@ export default function App() {
     </Provider>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
