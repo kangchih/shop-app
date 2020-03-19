@@ -11,9 +11,10 @@ npm install --save react-navigation
 npm install --save react-navigation-header-buttons
 npm install --save react-native-gesture-handler react-native-reanimated
 npm install --save react-navigation-stack
-expo install @react-native-community/masked-view (dependency of react-navigation/stack?)
+<!-- expo install @react-native-community/masked-view (dependency of react-navigation/stack?) -->
 expo install react-native-safe-area-context
 expo install react-native-screens
+expo install expo-font
 <!-- npm install --save react-navigation-stack -->
 <!-- npm install --save react-navigation-tabs -->
 <!-- npm install --save react-navigation-drawer -->
