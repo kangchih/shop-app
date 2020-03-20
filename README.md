@@ -19,6 +19,6 @@ npm install --save-dev redux-devtools-extension
 <!-- npm install --save react-navigation-stack -->
 <!-- npm install --save react-navigation-tabs -->
 <!-- npm install --save react-navigation-drawer -->
-<!-- npm install --save @expo/vector-icons
+npm install --save @expo/vector-icons
 npm install --save react-navigation-material-bottom-tabs
 npm install --save react-native-pape -->
