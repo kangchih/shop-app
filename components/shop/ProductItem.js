@@ -14,7 +14,7 @@ const ProductItem = props => {
         // useForeground: Fix android click product effect hidden by image 
         <View style={styles.product}>
             <View style={styles.touchable}>
-                <TouchableCmp onPress={props.onViewDetail} useForeground>
+                <TouchableCmp onPress={props.onSelect} useForeground>
                     {/* it not adding this <view> android crashes */}
                     <View>
                         <View style={styles.imageContainer}>
@@ -25,14 +25,7 @@ const ProductItem = props => {
                             <Text style={styles.price}>${props.price.toFixed(2)}</Text>
                         </View>
                         <View style={styles.actions}>
-                            <Button
-                                color={Colors.primary}
-                                title="View Details" Ｆ
-                                onPress={props.onViewDetail} />
-                            <Button
-                                color={Colors.primary}
-                                title="To Cart"
-                                onPress={props.onAddToCart} />
+                            {props.children}
                         </View>
                     </View>
                 </TouchableCmp>
