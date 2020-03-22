@@ -1,12 +1,8 @@
-// class Product {
-//     constructor(id, ownerId, title, imageUrl, description, price){
-//         this.id = id;
-//         this.ownerId = ownerId;
-//         this.title = title;
-//         this.imageUrl = imageUrl;
-//         this.description = description;
-//         this.price = price;
-//     }
-// }
+export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 
-// // export default Product;
+export const deleteProduct = productId => {
+    return {
+        type: DELETE_PRODUCT,
+        pid: productId
+    };
+};

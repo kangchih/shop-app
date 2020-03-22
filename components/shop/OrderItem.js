@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, Platform, Button } from 'react-native';
-// import { Ionicons } from '@expo/vector-icons';
-// import { TouchableOpacity } from 'react-native-gesture-handler';
 import Colors from '../../constants/Colors';
 
 import CartItem from './CartItem';
