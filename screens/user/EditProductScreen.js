@@ -16,11 +16,19 @@ const EditProductsScreen = props => {
     const dispatch = useDispatch();
 
     const [title, setTitle] = useState(editedProduct ? editedProduct.title : '');
+    const [titleIsValid, setTitleIsValid] = useState(false);
     const [imageUrl, setImageUrl] = useState(editedProduct ? editedProduct.imageUrl : '');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState(editedProduct ? editedProduct.description : '');
 
     const submitHandler = useCallback(() => {
+        if (!titleIsValid) {
+            Alert.alert('Wrong input!', 'Please check the errors in the form.', [
+                { text: 'Okay' }
+            ]);
+            return;
+        }
+
         if (editedProduct) {
             dispatch(productsActions.updateProduct(prodId, title, description, imageUrl));
         } else {
@@ -34,6 +42,15 @@ const EditProductsScreen = props => {
         props.navigation.setParams({ submit: submitHandler });
     }, [submitHandler]);
 
+    const titleChangeHandler = text => {
+        if (text.trim().length === 0) {
+            setTitleIsValid(false);
+        } else {
+            setTitleIsValid(true);
+        }
+        setTitle(text);
+    };
+
     return (
         <ScrollView>
             <View style={styles.form}>
@@ -42,7 +59,7 @@ const EditProductsScreen = props => {
                     <TextInput
                         style={styles.input}
                         value={title}
-                        onChangeText={text => setTitle(text)}
+                        onChangeText={titleChangeHandler}
                         keyboardType="default"
                         autoCapitalize='sentences'
                         autoCorrect
@@ -50,6 +67,7 @@ const EditProductsScreen = props => {
                         onEndEditing={() => console.log('onEndEditing')}
                         onSubmitEditing={() => console.log('onSubmitEditing')}
                     />
+                    {!titleIsValid && <Text>Please enter a valid title!</Text>}
                 </View>
                 <View style={styles.formControl}>
                     <Text style={styles.label}>Image Url</Text>
