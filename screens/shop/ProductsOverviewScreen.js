@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Platform, FlatList, Button } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import ProductItem from '../../components/shop/ProductItem';
 import * as cartActions from '../../store/actions/cart';
+import * as productsActions from '../../store/actions/products';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../../components/UI/HeaderButton';
 import Colors from '../../constants/Colors';
@@ -10,6 +11,11 @@ import Colors from '../../constants/Colors';
 const ProductsOverviewScreen = props => {
     const products = useSelector(state => state.products.availableProducts);
     const dispatch = useDispatch();
+    //Only runs if depencies update
+    //The only time it will run is when this component is loaded
+    useEffect(() => {
+        dispatch(productsActions.fetchProducts());
+    }, [dispatch]);
 
     const selectItemHandler = (id, title) => {
         props.navigation.navigate('ProductDetail', {
