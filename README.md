@@ -24,3 +24,4 @@
 * npm install --save react-navigation-material-bottom-tabs
 <!-- npm install --save react-native-pape -->
 * npm install --save moment
+* npm install --save redux-thunk
