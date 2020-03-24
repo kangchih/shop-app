@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Platform, FlatList, Button, View, ActivityIndicator, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Platform, FlatList, Button, View, ActivityIndicator, StyleSheet, Text } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import ProductItem from '../../components/shop/ProductItem';
 import * as cartActions from '../../store/actions/cart';
@@ -10,19 +10,26 @@ import Colors from '../../constants/Colors';
 
 const ProductsOverviewScreen = props => {
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
     const products = useSelector(state => state.products.availableProducts);
     const dispatch = useDispatch();
 
     //Only runs if depencies update
+    const loadProducts = useCallback(async () => {
+        setError(null);
+        setIsLoading(true);
+        try {
+            await dispatch(productsActions.fetchProducts());
+        } catch (err) {
+            setError(err.message);
+        }
+        setIsLoading(false);
+    }, [dispatch, setIsLoading, setError]);
+
     //The only time it will run is when this component is loaded
     useEffect(() => {
-        const loadProducts = async () => {
-            setIsLoading(true);
-            await dispatch(productsActions.fetchProducts());
-            setIsLoading(false);
-        };
         loadProducts();
-    }, [dispatch]);
+    }, [dispatch, loadProducts]);
 
     const selectItemHandler = (id, title) => {
         props.navigation.navigate('ProductDetail', {
@@ -31,10 +38,31 @@ const ProductsOverviewScreen = props => {
         });
     };
 
+    if (error) {
+        return (
+            <View style={styles.centered}>
+                <Text>An error occurred!</Text>
+                <Button
+                    title="Try again"
+                    onPress={loadProducts}
+                    color={Colors.primary}
+                />
+            </View>
+        );
+    }
+
     if (isLoading) {
         return (
             <View style={styles.centered}>
                 <ActivityIndicator size="large" color={Colors.primary} />
+            </View>
+        );
+    }
+
+    if (!isLoading && products.length === 0) {
+        return (
+            <View style={styles.centered}>
+                <Text>No products found. Maybe start adding some!</Text>
             </View>
         );
     }
