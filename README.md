@@ -25,3 +25,4 @@
 <!-- npm install --save react-native-pape -->
 * npm install --save moment
 * npm install --save redux-thunk
+* expo install expo-linear-gradient
