@@ -10,6 +10,7 @@ import Colors from '../../constants/Colors';
 
 const ProductsOverviewScreen = props => {
     const [isLoading, setIsLoading] = useState(false);
+    const [isRefreshing, setIsRefreshing] = useState(false);
     const [error, setError] = useState();
     const products = useSelector(state => state.products.availableProducts);
     const dispatch = useDispatch();
@@ -18,13 +19,15 @@ const ProductsOverviewScreen = props => {
     const loadProducts = useCallback(async () => {
         console.log('LOAD PRODUCTS')
         setError(null);
-        setIsLoading(true);
+        setIsRefreshing(true);
+        // setIsLoading(true);
         try {
             await dispatch(productsActions.fetchProducts());
         } catch (err) {
             setError(err.message);
         }
-        setIsLoading(false);
+        // setIsLoading(false);
+        setIsRefreshing(false);
     }, [dispatch, setIsLoading, setError]);
 
     useEffect(() => {
@@ -41,7 +44,10 @@ const ProductsOverviewScreen = props => {
 
     //The only time it will run is when this component is loaded
     useEffect(() => {
-        loadProducts();
+        loadProducts().then(() => {
+            //setIsLoading here to avoid bad perf (course 207)
+            setIsLoading(false);
+        });
     }, [dispatch, loadProducts]);
 
     const selectItemHandler = (id, title) => {
@@ -82,6 +88,8 @@ const ProductsOverviewScreen = props => {
 
     return (
         <FlatList
+            onRefresh={loadProducts}
+            refreshing={isRefreshing}
             data={products}
             keyExtractor={item => item.id}
             renderItem={itemData =>
