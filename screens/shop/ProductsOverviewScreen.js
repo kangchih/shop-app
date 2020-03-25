@@ -16,6 +16,7 @@ const ProductsOverviewScreen = props => {
 
     //Only runs if depencies update
     const loadProducts = useCallback(async () => {
+        console.log('LOAD PRODUCTS')
         setError(null);
         setIsLoading(true);
         try {
@@ -25,6 +26,18 @@ const ProductsOverviewScreen = props => {
         }
         setIsLoading(false);
     }, [dispatch, setIsLoading, setError]);
+
+    useEffect(() => {
+        const willFocusSub = props.navigation.addListener(
+            'willFocus',
+            loadProducts
+        );
+        //Clean up function. Runs whenever this effect is about re-run or 
+        //when this component is destroyed. We can clean up that listener!
+        return () => {
+            willFocusSub.remove();
+        };
+    }, [loadProducts]);
 
     //The only time it will run is when this component is loaded
     useEffect(() => {
