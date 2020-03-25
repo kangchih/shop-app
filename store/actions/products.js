@@ -41,9 +41,10 @@ export const fetchProducts = () => {
 };
 
 export const deleteProduct = productId => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
         const response = await fetch(
-            `https://test-13de2.firebaseio.com/products/${productId}.json`,
+            `https://test-13de2.firebaseio.com/products/${productId}.json?auth=${token}`,
             {
                 method: 'DELETE',
             }
@@ -60,20 +61,23 @@ export const deleteProduct = productId => {
 export const createProduct = (title, description, imageUrl, price) => {
     //If it returns a function, then this is a function which has to receive an argument, the dispatch function
     //which will be passed in automatically by redux thunk, so redux thunk will in the end call this function
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
         // any async code you want!
-        const response = await fetch('https://test-13de2.firebaseio.com/products.json', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title,
-                description,
-                imageUrl,
-                price
-            })
-        });
+        const response = await fetch(
+            `https://test-13de2.firebaseio.com/products.json?auth=${token}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title,
+                    description,
+                    imageUrl,
+                    price
+                })
+            });
 
         const resData = await response.json();
 
@@ -93,9 +97,11 @@ export const createProduct = (title, description, imageUrl, price) => {
 };
 
 export const updateProduct = (id, title, description, imageUrl) => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        // getState() return an object with token 
+        const token = getState().auth.token;
         const response = await fetch(
-            `https://test-13de2.firebaseio.com/products/${id}.json`,
+            `https://test-13de2.firebaseio.com/products/${id}.json?auth=${token}`,
             {
                 method: 'PATCH',
                 headers: {
