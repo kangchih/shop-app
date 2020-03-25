@@ -34,7 +34,7 @@ const CartScreen = props => {
         setIsLoading(true);
         await dispatch(orderActions.addOrder(cartItems, cartTotalAmount));
         setIsLoading(false);
-    }
+    };
 
     return (
         <View style={styles.screen}>
