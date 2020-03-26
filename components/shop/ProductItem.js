@@ -1,6 +1,5 @@
 import React from 'react';
-import { Text, View, Image, StyleSheet, Button, TouchableOpacity, TouchableNativeFeedback, Platform } from 'react-native';
-import Colors from '../../constants/Colors';
+import { Text, View, Image, StyleSheet, TouchableOpacity, TouchableNativeFeedback, Platform } from 'react-native';
 import Card from '../UI/Card';
 
 const ProductItem = props => {
@@ -38,7 +37,7 @@ const ProductItem = props => {
 const styles = StyleSheet.create({
     product: {
         height: 300,
-        margin: 20,
+        margin: 20
     },
     touchable: {
         borderRadius: 10,
@@ -63,7 +62,7 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: 'open-sans-bold',
         fontSize: 18,
-        marginVertical: 2,
+        marginVertical: 2
     },
     price: {
         fontFamily: 'open-sans',

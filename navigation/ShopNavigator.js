@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
+import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
 import { Platform, SafeAreaView, Button, View } from 'react-native';
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
@@ -101,7 +101,7 @@ const ShopNavigator = createDrawerNavigator(
             return (
                 <View sytle={{ flex: 1, padding: 20 }}>
                     <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
-                        <DrawerItems {...props} />
+                        <DrawerNavigatorItems {...props} />
                         <Button
                             title='Logout'
                             color={Colors.primary}

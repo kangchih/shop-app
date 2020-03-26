@@ -100,8 +100,8 @@ const styles = StyleSheet.create({
     },
     errorText: {
         fontFamily: 'open-sans',
-        fontSize: 13,
-        color: 'red'
+        color: 'red',
+        fontSize: 13
     }
 });
 

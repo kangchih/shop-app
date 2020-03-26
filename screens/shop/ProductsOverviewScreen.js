@@ -44,6 +44,7 @@ const ProductsOverviewScreen = props => {
 
     //The only time it will run is when this component is loaded
     useEffect(() => {
+        setIsLoading(true);
         loadProducts().then(() => {
             //setIsLoading here to avoid bad perf (course 207)
             setIsLoading(false);
@@ -85,6 +86,7 @@ const ProductsOverviewScreen = props => {
             </View>
         );
     }
+
 
     return (
         <FlatList
