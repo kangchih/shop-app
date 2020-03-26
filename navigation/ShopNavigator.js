@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
+import { createAppContainer, createSwitchNavigator} from 'react-navigation';
+import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
 import { Platform, SafeAreaView, Button, View } from 'react-native';
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
@@ -99,15 +99,19 @@ const ShopNavigator = createDrawerNavigator(
         contentComponent: props => {
             const dispatch = useDispatch();
             return (
-                <View sytle={{ flex: 1, padding: 20 }}>
+                <View sytle={{ flex: 1, paddingTop: 20 }}>
                     <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
-                        <DrawerItems {...props} />
+                        <DrawerNavigatorItems {...props} />
                         <Button
                             title='Logout'
                             color={Colors.primary}
                             onPress={() => {
                                 dispatch(authActions.logout());
-                                props.navigation.navigate('Auth');
+                                //No need to navigate here because if we trigger logout,
+                                //if we dispatch this action, we clear the token in Redux
+                                //therefore this should automatically trigger our navigation 
+                                // (because of navigation container)
+                                // props.navigation.navigate('Auth');
                             }}
                         />
                     </SafeAreaView>

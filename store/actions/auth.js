@@ -1,13 +1,22 @@
-import { AsyncStorage, Platform } from 'react-native'
+import { AsyncStorage } from 'react-native';
 
 // export const SIGNUP = 'SIGNUP';
 // export const LOGIN = 'LOGIN';
 export const AUTHENTICATE = 'AUTHENTICATE';
 export const LOGOUT = 'LOGOUT';
 
-export const authenticate = (userId, token) => {
-  return { type: AUTHENTICATE, userId: userId, token: token };
+let timer;
+
+export const authenticate = (userId, token, expiryTime) => {
+  return dispatch => {
+    dispatch(setLogoutTimer(expiryTime));
+    dispatch({ type: AUTHENTICATE, userId: userId, token: token });
+  };
 };
+
+// export const authenticate = (userId, token) => {
+//   return { type: AUTHENTICATE, userId: userId, token: token };
+// };
 
 export const signup = (email, password) => {
   return async dispatch => {
@@ -39,7 +48,17 @@ export const signup = (email, password) => {
 
     const resData = await response.json();
     console.log(resData);
-    dispatch({ type: SIGNUP, token: resData.idToken, userId: resData.localId });
+    dispatch(
+      authenticate(
+        resData.localId,
+        resData.idToken,
+        parseInt(resData.expiresIn) * 1000
+      )
+    );
+    const expirationDate = new Date(
+      new Date().getTime() + parseInt(resData.expiresIn) * 1000
+    );
+    saveDataToStorage(resData.idToken, resData.localId, expirationDate);
   };
 };
 
@@ -73,11 +92,17 @@ export const login = (email, password) => {
       }
       throw new Error(message);
     }
+
     const resData = await response.json();
     console.log(resData);
     // dispatch({ type: LOGIN, token: resData.idToken, userId: resData.localId });
-    dispatch(authenticate(resData.localId, resData.token));
-
+    dispatch(
+      authenticate(
+        resData.localId,
+        resData.token,
+        parseInt(resData.expiresIn) * 1000
+      )
+    );
     const expirationDate = new Date(
       new Date().getTime() + parseInt(resData.expiresIn) * 1000
     );
@@ -86,8 +111,30 @@ export const login = (email, password) => {
   };
 };
 
+// export const logout = () => {
+//   return { type: LOGOUT };
+// };
+
 export const logout = () => {
+  clearLogoutTimer();
+  // Can wait for this promise to complete, but we just fire this
+  // Just trust removeItem will complete.
+  AsyncStorage.removeItem('userData');
   return { type: LOGOUT };
+};
+
+const clearLogoutTimer = () => {
+  if (timer) {
+    clearTimeout(timer);
+  }
+};
+
+const setLogoutTimer = expirationTime => {
+  return dispatch => {
+    timer = setTimeout(() => {
+      dispatch(logout());
+    }, expirationTime / 1000);
+  };
 };
 
 const saveDataToStorage = (token, userId, expirationDate) => {
@@ -99,4 +146,4 @@ const saveDataToStorage = (token, userId, expirationDate) => {
       expiryDate: expirationDate.toISOString()
     })
   );
-}
+};
